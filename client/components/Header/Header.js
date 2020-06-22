@@ -136,10 +136,10 @@ export default function Header(props) {
           )}
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
-          ALW
+          Task Management
         </Typography>
         <div className={classes.grow} />
-        <div
+        {/* <div
           className={classNames(classes.search, {
             [classes.searchFocused]: isSearchOpen,
           })}
@@ -159,8 +159,8 @@ export default function Header(props) {
               input: classes.inputInput,
             }}
           />
-        </div>
-        <IconButton
+        </div> */}
+        {/* <IconButton
           color="inherit"
           aria-haspopup="true"
           aria-controls="mail-menu"
@@ -331,7 +331,7 @@ export default function Header(props) {
               Sign Out
             </Typography>
           </div>
-        </Menu>
+        </Menu> */}
       </Toolbar>
     </AppBar>
   );

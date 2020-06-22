@@ -3,7 +3,8 @@ import {API_URL} from '../constants'
 
 const pathSprint='api/v1/sprints';
 
-export const getListSprint = ()=>{
-    return axiosService.post(`${API_URL}/${pathSprint}`)
+export const getListSprint = (createdByID)=>{
+    let params=`?created_by_id=${createdByID}`
+    return axiosService.get(`${API_URL}/${pathSprint}${params}`)
 };
 

@@ -1,4 +1,4 @@
-import * as sprintConstants from '../constans/sprintConstants'
+import * as sprintConstants from '../constants/sprintConstants'
 
 const initialState = {
     listSprint:[]

@@ -1,5 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -20,7 +22,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
 
-import {STATUS_OF_TASKS} from '../'
+
+import { STATUS_OF_TASKS } from '../../../constants/taskConstants'
+import * as taskActions from '../../../actions/taskActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TaskCard() {
+function TaskCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -59,9 +63,25 @@ export default function TaskCard() {
     setAnchorEl(null);
   };
 
+  const handleStatusMenuSelected = (value) => {
+    const {task, sprintId,  taskActionCreators } = props
+    const { updateTaskRequest} = taskActionCreators
+    const payload={ 
+      id:task.id,
+      status: value
+    }
+    updateTaskRequest(sprintId, payload)
+    setAnchorEl(null);
+  };
+
   const renderStatusMenu=()=>{
-      return null
+      return STATUS_OF_TASKS.map((status)=>{ 
+        return (
+          <MenuItem value={status} onClick={() => handleStatusMenuSelected(status)}>{status}</MenuItem>
+        )
+      })
   }
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -100,3 +120,18 @@ export default function TaskCard() {
     </Card>
   );
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+      taskActionCreators: bindActionCreators(taskActions, dispatch)
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskCard)
+
+

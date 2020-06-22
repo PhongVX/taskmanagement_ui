@@ -32,7 +32,8 @@ import {
 } from "../../context/LayoutContext";
 
 const structure = [
-  { id: 0, label: "Sprint", link: "/app/sprint", icon: <HomeIcon /> }
+  { id: 0, label: "User", link: "/app/user", icon: <PeopleAlt /> },
+  { id: 1, label: "Sprint", link: "/app/sprint", icon: <HomeIcon /> }
 ];
 
 function Sidebar({ location }) {

@@ -1,12 +1,17 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import {
     Grid,
     Button,
-    Paper
+    Paper,
+    TextField,
+    InputAdornment,
+    IconButton
 } from '@material-ui/core'
-
-import SprintDetail from './SprintDetail'
+import {
+    Search as SearchIcon
+} from "@material-ui/icons";
 
 import {
     Grid as DevGrid,
@@ -14,25 +19,45 @@ import {
     TableHeaderRow
 } from '@devexpress/dx-react-grid-material-ui';
 
+import * as sprintActions from '../../actions/sprintActions'
 
-const columns = [
-    { name: 'id', title: 'ID' },
-    { name: 'product', title: 'Product' },
-    { name: 'owner', title: 'Owner' },
-];
-const rows = [
-    { id: 0, product: 'DevExtreme', owner: 'DevExpress' },
-    { id: 1, product: 'DevExtreme Reactive', owner: 'DevExpress' },
-];
-
+import { COLUMNS, TEXT } from './Sprint.const'
 
 class Sprint extends PureComponent {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            textSearchUserID: ""
+        }
+    }
+
+    handleSearchUserIDChange = (event) => {
+        if (event.target.value.trim() === "") {
+            this.setState({
+                textSearchUserID: ""
+            });
+            return;
+        }
+        this.setState({
+            textSearchUserID: event.target.value
+        });
+    }
+
+    handleFindSprintByUserID = () => {
+        const { textSearchUserID } = this.state
+        const { sprintActionCreators } = this.props
+        const { fetchListSprintRequest } = sprintActionCreators
+        fetchListSprintRequest(textSearchUserID)
+    }
+
     renderTable() {
+        const { listSprint } = this.props
         return (
             <Paper>
                 <DevGrid
-                    rows={rows}
-                    columns={columns}
+                    rows={listSprint}
+                    columns={COLUMNS}
                 >
                     <Table />
                     <TableHeaderRow />
@@ -44,15 +69,30 @@ class Sprint extends PureComponent {
     render() {
         return (
             <>
+                <h2>{TEXT.title}</h2>
                 <Grid container spacing={3}>
+
                     <Grid container item direction="row" justify="flex-end" xs={12}>
-                        <Button variant="contained" color="primary">Create Sprint</Button>
+                        <TextField
+                            size="small"
+                            variant="outlined"
+                            placeholder={TEXT.searchUserID}
+                            onChange={this.handleSearchUserIDChange}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment>
+                                        <IconButton onClick={this.handleFindSprintByUserID}>
+                                            <SearchIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
                     </Grid>
                     <Grid container item direction="row" justify="flex-end" xs={12}>
                         {this.renderTable()}
-                    </Grid>
+                    </Grid>        
                 </Grid>
-                <SprintDetail />
             </>
         )
     }
@@ -60,13 +100,13 @@ class Sprint extends PureComponent {
 
 const mapStateToProps = state => {
     return {
-        // listEmployee: state.employees.listEmployee
+        listSprint: state.sprints.listSprint
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        // employeeActionCreators: bindActionCreators(employeeActions, dispatch)
+        sprintActionCreators: bindActionCreators(sprintActions, dispatch)
     }
 }
 

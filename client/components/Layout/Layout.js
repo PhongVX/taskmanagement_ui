@@ -16,6 +16,8 @@ import Sidebar from "../Sidebar";
 
 // pages
 import Sprint from '../../pages/sprint'
+import User from '../../pages/user'
+import SprintDetail from '../../pages/SprintDetail/SprintDetail'
 
 import { useLayoutState } from "../../context/LayoutContext";
 
@@ -36,7 +38,9 @@ function Layout(props) {
           >
             <div className={classes.fakeToolbar} />
             <Switch>
+                <Route path="/app/user" component={User} />
                 <Route path="/app/sprint" component={Sprint} />
+                <Route path="/app/sprint-detail/:sprintId" component={SprintDetail} />
             </Switch>
           </div>
         </>

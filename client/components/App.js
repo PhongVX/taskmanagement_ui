@@ -24,7 +24,7 @@ export default function App() {
             path="/app"
             render={() => <Redirect to="/app/sprint" />}
           />
-          <PublicRoute path="/app/sprint" component={Layout} />
+          <PublicRoute path="/app" component={Layout} />
           {/* <PublicRoute path="/login" component={Login} /> */}
           {/* <Route component={Error} /> */}
         </Switch>

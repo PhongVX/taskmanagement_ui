@@ -1,42 +1,42 @@
 import * as sprintApi from '../apis/sprintApi'
 import * as sprintConstants from '../constants/sprintConstants'
 
-export const clearListSprint = ()=>{
-    return{
+export const clearListSprint = () => {
+    return {
         type: sprintConstants.CLEAR_SPRINT
     }
 }
 
-export const fetchListSprintSuccess = (data)=>{
-    return{
+export const fetchListSprintSuccess = (data) => {
+    return {
         type: sprintConstants.FETCH_SPRINT_SUCCESS,
-        payload:{
+        payload: {
             data
         }
     }
 }
 
-export const fetchListSprintFailed = (error)=>{
-    return{
+export const fetchListSprintFailed = (error) => {
+    return {
         type: sprintConstants.FETCH_SPRINT_FAILED,
-        payload:{
+        payload: {
             error
         }
     }
 }
 
-export const fetchListSprintRequest = ()=>{
-    return dispatch =>{
+export const fetchListSprintRequest = (userId) => {
+    return dispatch => {
         dispatch(clearListSprint())
         sprintApi
-        .getListSprint()
-        .then(resp=>{
-            const {data} = resp
-            const {result} = data
-            dispatch(fetchListSprintSuccess(result))
-        }).catch(error=>{
-            dispatch(fetchListSprintFailed(error))
-        })
+            .getListSprint(userId)
+            .then(resp => {
+                const { data } = resp
+                const { result } = data
+                dispatch(fetchListSprintSuccess(result))
+            }).catch(error => {
+                dispatch(fetchListSprintFailed(error))
+            })
     }
 }
 
