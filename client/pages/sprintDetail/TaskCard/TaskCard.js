@@ -2,26 +2,18 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
-
+import moment from "moment"
 
 import { STATUS_OF_TASKS } from '../../../constants/taskConstants'
 import * as taskActions from '../../../actions/taskActions'
@@ -50,10 +42,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function TaskCard(props) {
+  const {task, sprintId,  taskActionCreators } = props
+  const { updateTaskRequest} = taskActionCreators
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
 
   const handleOpenStatusMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -64,8 +59,6 @@ function TaskCard(props) {
   };
 
   const handleStatusMenuSelected = (value) => {
-    const {task, sprintId,  taskActionCreators } = props
-    const { updateTaskRequest} = taskActionCreators
     const payload={ 
       id:task.id,
       status: value
@@ -87,7 +80,7 @@ function TaskCard(props) {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            W
+            T
           </Avatar>
         }
         action={
@@ -95,13 +88,12 @@ function TaskCard(props) {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={task.title}
+        subheader={moment(task.created_at).format("MMMM Do YYYY, h:mm")}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook together with your
-          guests. Add 1 cup of frozen peas along with the mussels, if you like.
+          {task.description}
         </Typography>
       </CardContent>
       <Menu

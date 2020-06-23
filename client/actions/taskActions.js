@@ -33,7 +33,6 @@ export const fetchListTaskFailed = (error)=>{
 
 export const fetchListTaskRequest = (sprintId)=>{
     return dispatch =>{
-        dispatch(clearListTask(sprintId))
         taskApi
         .getListTask(sprintId)
         .then(resp=>{
@@ -48,7 +47,6 @@ export const fetchListTaskRequest = (sprintId)=>{
 
 export const updateTaskRequest = (sprintId, payload) =>{
     return dispatch =>{
-        dispatch(clearListTask())
         taskApi
         .updateTask(payload)
         .then(resp=>{

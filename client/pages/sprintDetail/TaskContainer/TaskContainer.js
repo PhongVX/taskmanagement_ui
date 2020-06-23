@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import TaskCard from '../TaskCard'
+import taskContainerStyle from './TaskContainer.style'
 
 class TaskContainer extends PureComponent {
 
@@ -27,7 +28,7 @@ class TaskContainer extends PureComponent {
         let {status} = this.props
         return (
             <>
-                <Paper style={{ padding: 10, backgroundColor: 'rgb(244, 245, 247)' }} variant="outlined" square>
+                <Paper style={taskContainerStyle.root} variant="outlined" square>
                     <div>
                         {status}
                     </div>

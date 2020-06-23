@@ -92,6 +92,7 @@ export default function SidebarLink({
         className={classes.link}
         to={link}
         disableRipple
+
       >
         <ListItemIcon
           className={classnames(classes.linkIcon, {
