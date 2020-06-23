@@ -16,13 +16,16 @@ export default makeStyles(theme => ({
       backgroundColor: "#FFFFFF",
     },
   },
+  linkRoot:{ 
+    paddingLeft:0
+  },
   linkIcon: {
     marginRight: theme.spacing(1),
     color: theme.palette.text.secondary + "99",
     transition: theme.transitions.create("color"),
     width: 24,
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   linkIconActive: {
     color: theme.palette.primary.main,

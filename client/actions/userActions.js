@@ -27,7 +27,6 @@ export const fetchListUserFailed = (error)=>{
 
 export const fetchListUserRequest = ()=>{
     return dispatch =>{
-        dispatch(clearListUser())
         userApi
         .getListUser()
         .then(resp=>{
@@ -40,28 +39,41 @@ export const fetchListUserRequest = ()=>{
     }
 }
 
-// export const createUserRequest = (payload) =>{
-//     return dispatch =>{
-//         dispatch(fetchListUser())
-//         userApi
-//         .createUser(payload)
-//         .then(resp=>{
-//             dispatch(fetchListUserRequest())
-//         }).catch(error=>{
-//             console.log(error)
-//         })
-//     } 
-// }
+export const updateUserRequest = (payload, resolve, reject) => { 
+    return dispatch =>{
+        userApi
+        .updateUser(payload)
+        .then(resp=>{
+            dispatch(fetchListUserRequest())
+            resolve(resp)
+        }).catch(error=>{
+            reject(error)
+        })
+    } 
+}
 
-// export const deleteUserRequest = (id) =>{
-//     return dispatch =>{
-//         dispatch(fetchListUser())
-//         userApi
-//         .deleteUser({"id":id})
-//         .then(resp=>{
-//             dispatch(fetchListUserRequest())
-//         }).catch(error=>{
-//             console.log(error)
-//         })
-//     } 
-// }
+export const createUserRequest = (payload, resolve, reject) =>{
+    return dispatch =>{
+        userApi
+        .createUser(payload)
+        .then(resp=>{
+            dispatch(fetchListUserRequest())
+            resolve(resp)
+        }).catch(error=>{
+            reject(error)
+        })
+    } 
+}
+
+export const deleteUserRequest = (id, resolve, reject) =>{
+    return dispatch =>{
+        userApi
+        .deleteUser(id)
+        .then(resp=>{
+            dispatch(fetchListUserRequest())
+            resolve(resp)
+        }).catch(error=>{
+            reject(error)
+        })
+    } 
+}
