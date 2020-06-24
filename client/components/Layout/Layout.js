@@ -1,9 +1,7 @@
 import React from "react";
 import {
   Route,
-  Switch,
-  Redirect,
-  withRouter,
+  Switch
 } from "react-router-dom";
 import classnames from "classnames";
 
@@ -13,6 +11,7 @@ import useStyles from "./Layout.style";
 // components
 import Header from "../Header";
 import Sidebar from "../Sidebar";
+import Snackbars from '../Snackbars'
 
 // pages
 import Sprint from '../../pages/sprint'
@@ -28,7 +27,7 @@ function Layout(props) {
 
   return (
     <div className={classes.root}>
-        <>
+        
           <Header history={props.history} />
           <Sidebar />
           <div
@@ -43,7 +42,7 @@ function Layout(props) {
                 <Route path="/app/sprint-detail/:sprintId" component={SprintDetail} />
             </Switch>
           </div>
-        </>
+          <Snackbars/>
     </div>
   );
 }

@@ -25,9 +25,11 @@ import {
     TableEditColumn
 } from '@devexpress/dx-react-grid-material-ui'
 
-import Command from '../../components/ActionTableButton'
 
+import Command from '../../components/ActionTableButton'
 import * as userActions from '../../actions/userActions'
+import * as uiCommonStateAction from '../../actions/uiCommonStateAction'
+import {WARNING_TYPE} from '../../constants'
 import { COLUMNS, TEXT, COLUMN_EXTENSIONS } from './User.const'
 
 
@@ -47,9 +49,10 @@ class User extends Component {
         fetchListUserRequest()
     }
 
-    commitChanges = ({ added, changed, deleted }) => {
-        const { userActionCreators } = this.props
+    commitChanges = ({ added, changed, deleted, ...resProps }) => {
+        const { userActionCreators, uiCommonStateCreators } = this.props
         const { updateUserRequest, createUserRequest } = userActionCreators
+        const {openSnackbar, closeSnackbar} = uiCommonStateCreators
         if (added) {
             added.forEach((data) => {
                 const createUserPromise = () => {
@@ -59,10 +62,10 @@ class User extends Component {
                 }
                 createUserPromise()
                     .then((res) => {
-                        // thiz.setState({ variantSnackbar: WARNING_TYPE.success, noticeText: ELEMENT_TEXT.addedSuccess, snackBarName: 'create-farm-success', isOpenSnackBars: !thiz.state.isOpenSnackBars })
+                        openSnackbar({ noticeText: TEXT.snackbar.addSuccess, snackBarVariant: WARNING_TYPE.success })
                     })
                     .catch((error) => {
-                        //thiz.setState({ variantSnackbar: WARNING_TYPE.error, noticeText: ELEMENT_TEXT.addFailed, snackBarName: 'create-farm-failed', isOpenSnackBars: !thiz.state.isOpenSnackBars })
+                        openSnackbar({ noticeText: TEXT.snackbar.addFail, snackBarVariant: WARNING_TYPE.error })
                     })
             })
         }
@@ -77,13 +80,12 @@ class User extends Component {
                 updateUserPromise()
                     .then((res) => {
                         if (res.status === 200) {
-                            //fetchListUserRequest()
-                            // /thiz.setState({variantSnackbar: WARNING_TYPE.success, noticeText: ELEMENT_TEXT['updatedSuccess'], snackBarName: 'update-farm-success', isOpenSnackBars: !thiz.state.isOpenSnackBars })
+                            openSnackbar({ noticeText: TEXT.snackbar.updateSuccess, snackBarVariant: WARNING_TYPE.success })
                         }
 
                     })
                     .catch(() => {
-                        //thiz.setState({ variantSnackbar: WARNING_TYPE.error, noticeText: ELEMENT_TEXT.updateFailed, snackBarName: 'update-farm-failed', isOpenSnackBars: !thiz.state.isOpenSnackBars })
+                        openSnackbar({ noticeText: TEXT.snackbar.updateFail, snackBarVariant: WARNING_TYPE.error })
                     })
 
             })
@@ -96,8 +98,9 @@ class User extends Component {
     cancelDelete = () => this.setState({ deletingRows: [] })
 
     deleteRows = () => {
-        const { userActionCreators } = this.props
+        const { userActionCreators, uiCommonStateCreators } = this.props
         const { deleteUserRequest } = userActionCreators
+        const {openSnackbar, closeSnackbar} = uiCommonStateCreators
         this.state.deletingRows.forEach((rowId) => {
             let deleteUserPromise = () => {
                 return new Promise((resolve, reject) => {
@@ -106,10 +109,10 @@ class User extends Component {
             }
             deleteUserPromise()
                 .then((res) => {
-                    //thiz.setState({ variantSnackbar: WARNING_TYPE.success, noticeText: ELEMENT_TEXT.deletedSuccess, snackBarName: 'delete-frame-success', isOpenSnackBars: !thiz.state.isOpenSnackBars })
+                    openSnackbar({ noticeText: TEXT.snackbar.deleteSuccess, snackBarVariant: WARNING_TYPE.success })
                 })
                 .catch(() => {
-                    //thiz.setState({ variantSnackbar: WARNING_TYPE.error, noticeText: ELEMENT_TEXT.deletedFailed, snackBarName: 'delete-frame-failed', isOpenSnackBars: !thiz.state.isOpenSnackBars })
+                    openSnackbar({ noticeText: TEXT.snackbar.deleteFail, snackBarVariant: WARNING_TYPE.error })
                 })
         })
         this.setState({ deletingRows: [] })
@@ -160,6 +163,7 @@ class User extends Component {
                 name="dialogConfirmation"
                 onClose={this.cancelDelete}
                 open={!!this.state.deletingRows.length}
+                maxWidth="md"
             >
                 <DialogTitle name='dialog-title'>{TEXT.dialog.dialogConfirmDeleteTitle}</DialogTitle>
                 <DialogContent>
@@ -179,11 +183,7 @@ class User extends Component {
         return (
             <>
                 <h2>{TEXT.title}</h2>
-                <Grid container spacing={3}>
-                    <Grid container item direction="row" justify="flex-end" xs={12}>
-                        {this.renderTable()}
-                    </Grid>
-                </Grid>
+                {this.renderTable()}
                 {this.renderDialog()}
             </>
         )
@@ -198,7 +198,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        userActionCreators: bindActionCreators(userActions, dispatch)
+        userActionCreators: bindActionCreators(userActions, dispatch),
+        uiCommonStateCreators: bindActionCreators(uiCommonStateAction, dispatch)
     }
 }
 

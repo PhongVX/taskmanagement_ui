@@ -15,6 +15,14 @@ export const TEXT = {
     dialog:{ 
         dialogConfirmDeleteTitle:'Confirmation',
         dialogConfirmDeleteText:'Are you sure to delete this item?'
+    },
+    snackbar:{
+        addSuccess:'Item is created successfully',
+        addFail:'Create item failed',
+        updateSuccess:'Item is updated successfully',
+        updateFail:'Update item failed',
+        deleteSuccess:'Item is deleted successfully',
+        deleteFail:'Delete item failed',
     }
 }
 
