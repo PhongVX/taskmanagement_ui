@@ -24,7 +24,6 @@ class Cell extends PureComponent {
         switch (column.name) {
             case 'action': {
                 return (
-
                     <TableCell name={column.name}>
                         <NavLink to={`/app/sprint-detail/${row.id}`}>
                             <IconButton title="View">

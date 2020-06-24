@@ -27,7 +27,6 @@ export const fetchListSprintFailed = (error) => {
 
 export const fetchListSprintRequest = (userId) => {
     return dispatch => {
-        dispatch(clearListSprint())
         sprintApi
             .getListSprint(userId)
             .then(resp => {
@@ -40,28 +39,47 @@ export const fetchListSprintRequest = (userId) => {
     }
 }
 
-// export const createSprintRequest = (payload) =>{
-//     return dispatch =>{
-//         dispatch(fetchListSprint())
-//         sprintApi
-//         .createSprint(payload)
-//         .then(resp=>{
-//             dispatch(fetchListSprintRequest())
-//         }).catch(error=>{
-//             console.log(error)
-//         })
-//     } 
-// }
 
-// export const deleteSprintRequest = (id) =>{
-//     return dispatch =>{
-//         dispatch(fetchListSprint())
-//         sprintApi
-//         .deleteSprint({"id":id})
-//         .then(resp=>{
-//             dispatch(fetchListSprintRequest())
-//         }).catch(error=>{
-//             console.log(error)
-//         })
-//     } 
-// }
+export const updateSprintRequest = (payload, resolve, reject) =>{
+    const {created_by_id, ...restPayload} = payload
+    return dispatch =>{
+        sprintApi
+        .updateSprint(restPayload)
+        .then(resp=>{
+            dispatch(fetchListSprintRequest(created_by_id))
+            resolve(resp)
+        }).catch(error=>{
+            reject(error)
+        })
+    } 
+}
+
+
+export const createSprintRequest = (payload, resolve, reject) =>{
+    const {created_by_id} = payload
+    return dispatch =>{
+        sprintApi
+        .createSprint(payload)
+        .then(resp=>{
+            dispatch(fetchListSprintRequest(created_by_id))
+            resolve(resp)
+        }).catch(error=>{
+            reject(error)
+        })
+    } 
+}
+
+export const deleteSprintRequest = (payload, resolve, reject) =>{
+    const {created_by_id, id} = payload
+    return dispatch =>{
+        sprintApi
+        .deleteSprint(id)
+        .then(resp=>{
+            dispatch(fetchListSprintRequest(created_by_id))
+            resolve(resp)
+        }).catch(error=>{
+            reject(error)
+        })
+    } 
+}
+

@@ -45,40 +45,43 @@ export const fetchListTaskRequest = (sprintId)=>{
     }
 }
 
-export const updateTaskRequest = (sprintId, payload) =>{
+export const updateTaskRequest = (sprintId, payload, resolve, reject) =>{
     return dispatch =>{
         taskApi
         .updateTask(payload)
         .then(resp=>{
             dispatch(fetchListTaskRequest(sprintId))
+            resolve(resp)
         }).catch(error=>{
-            console.log(error)
+            reject(error)
         })
     } 
 }
 
-// export const createTaskRequest = (payload) =>{
-//     return dispatch =>{
-//         dispatch(fetchListTask())
-//         taskApi
-//         .createTask(payload)
-//         .then(resp=>{
-//             dispatch(fetchListTaskRequest())
-//         }).catch(error=>{
-//             console.log(error)
-//         })
-//     } 
-// }
 
-// export const deleteTaskRequest = (id) =>{
-//     return dispatch =>{
-//         dispatch(fetchListTask())
-//         taskApi
-//         .deleteTask({"id":id})
-//         .then(resp=>{
-//             dispatch(fetchListTaskRequest())
-//         }).catch(error=>{
-//             console.log(error)
-//         })
-//     } 
-// }
+export const createTaskRequest = (sprintId, payload, resolve, reject) =>{
+    return dispatch =>{
+        taskApi
+        .createTask(payload)
+        .then(resp=>{
+            dispatch(fetchListTaskRequest(sprintId))
+            resolve(resp)
+        }).catch(error=>{
+            reject(error)
+        })
+    } 
+}
+
+export const deleteTaskRequest = (sprintId, id, resolve, reject) =>{
+    return dispatch =>{
+        taskApi
+        .deleteTask(id)
+        .then(resp=>{
+            dispatch(fetchListTaskRequest(sprintId))
+            resolve(resp)
+        }).catch(error=>{
+            reject(error)
+        })
+    } 
+}
+
