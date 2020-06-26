@@ -33,60 +33,60 @@ import {
   useLayoutDispatch,
   toggleSidebar,
 } from "../../context/LayoutContext";
-// import { useUserDispatch, signOut } from "../../context/UserContext";
+import { useUserDispatch, signOut } from "../../context/UserContext";
 
-// const messages = [
-//   {
-//     id: 0,
-//     variant: "warning",
-//     name: "Jane Hew",
-//     message: "Hey! How is it going?",
-//     time: "9:32",
-//   },
-//   {
-//     id: 1,
-//     variant: "success",
-//     name: "Lloyd Brown",
-//     message: "Check out my new Dashboard",
-//     time: "9:18",
-//   },
-//   {
-//     id: 2,
-//     variant: "primary",
-//     name: "Mark Winstein",
-//     message: "I want rearrange the appointment",
-//     time: "9:15",
-//   },
-//   {
-//     id: 3,
-//     variant: "secondary",
-//     name: "Liana Dutti",
-//     message: "Good news from sale department",
-//     time: "9:09",
-//   },
-// ];
+const messages = [
+  {
+    id: 0,
+    variant: "warning",
+    name: "Jane Hew",
+    message: "Hey! How is it going?",
+    time: "9:32",
+  },
+  {
+    id: 1,
+    variant: "success",
+    name: "Lloyd Brown",
+    message: "Check out my new Dashboard",
+    time: "9:18",
+  },
+  {
+    id: 2,
+    variant: "primary",
+    name: "Mark Winstein",
+    message: "I want rearrange the appointment",
+    time: "9:15",
+  },
+  {
+    id: 3,
+    variant: "secondary",
+    name: "Liana Dutti",
+    message: "Good news from sale department",
+    time: "9:09",
+  },
+];
 
-// const notifications = [
-//   { id: 0, color: "warning", message: "Check out this awesome ticket" },
-//   {
-//     id: 1,
-//     color: "success",
-//     type: "info",
-//     message: "What is the best way to get ...",
-//   },
-//   {
-//     id: 2,
-//     color: "secondary",
-//     type: "notification",
-//     message: "This is just a simple notification",
-//   },
-//   {
-//     id: 3,
-//     color: "primary",
-//     type: "e-commerce",
-//     message: "12 new orders has arrived today",
-//   },
-// ];
+const notifications = [
+  { id: 0, color: "warning", message: "Check out this awesome ticket" },
+  {
+    id: 1,
+    color: "success",
+    type: "info",
+    message: "What is the best way to get ...",
+  },
+  {
+    id: 2,
+    color: "secondary",
+    type: "notification",
+    message: "This is just a simple notification",
+  },
+  {
+    id: 3,
+    color: "primary",
+    type: "e-commerce",
+    message: "12 new orders has arrived today",
+  },
+];
 
 export default function Header(props) {
   var classes = useStyles();
@@ -94,15 +94,15 @@ export default function Header(props) {
   // global
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
-  // var userDispatch = useUserDispatch();
+  var userDispatch = useUserDispatch();
 
   // local
-  // var [mailMenu, setMailMenu] = useState(null);
-  // var [isMailsUnread, setIsMailsUnread] = useState(true);
-  // var [notificationsMenu, setNotificationsMenu] = useState(null);
-  // var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
-  // var [profileMenu, setProfileMenu] = useState(null);
-  // var [isSearchOpen, setSearchOpen] = useState(false);
+  var [mailMenu, setMailMenu] = useState(null);
+  var [isMailsUnread, setIsMailsUnread] = useState(true);
+  var [notificationsMenu, setNotificationsMenu] = useState(null);
+  var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
+  var [profileMenu, setProfileMenu] = useState(null);
+  var [isSearchOpen, setSearchOpen] = useState(false);
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -139,7 +139,7 @@ export default function Header(props) {
           Task Management
         </Typography>
         <div className={classes.grow} />
-        {/* <div
+         <div
           className={classNames(classes.search, {
             [classes.searchFocused]: isSearchOpen,
           })}
@@ -159,8 +159,8 @@ export default function Header(props) {
               input: classes.inputInput,
             }}
           />
-        </div> */}
-        {/* <IconButton
+        </div> 
+        <IconButton
           color="inherit"
           aria-haspopup="true"
           aria-controls="mail-menu"
@@ -285,7 +285,7 @@ export default function Header(props) {
           classes={{ paper: classes.profileMenu }}
           disableAutoFocusItem
         >
-          <div className={classes.profileMenuUser}>
+          {/* <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
               John Smith
             </Typography>
@@ -297,8 +297,8 @@ export default function Header(props) {
             >
               Flalogic.com
             </Typography>
-          </div>
-          <MenuItem
+          </div> */}
+          {/* <MenuItem
             className={classNames(
               classes.profileMenuItem,
               classes.headerMenuItem,
@@ -321,7 +321,7 @@ export default function Header(props) {
             )}
           >
             <AccountIcon className={classes.profileMenuIcon} /> Messages
-          </MenuItem>
+          </MenuItem> */}
           <div className={classes.profileMenuUser}>
             <Typography
               className={classes.profileMenuLink}
@@ -331,7 +331,7 @@ export default function Header(props) {
               Sign Out
             </Typography>
           </div>
-        </Menu> */}
+        </Menu> 
       </Toolbar>
     </AppBar>
   );

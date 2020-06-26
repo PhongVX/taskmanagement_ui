@@ -1,5 +1,6 @@
 import React from "react";
-
+import {loginRequest} from '../apis/auth'
+import {URL} from '../constants'
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
 
@@ -52,25 +53,28 @@ export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };
 function loginUser(dispatch, login, password, history, setIsLoading, setError) {
   setError(false);
   setIsLoading(true);
-
-  if (!!login && !!password) {
-    setTimeout(() => {
-      localStorage.setItem("id_token", "1");
-      dispatch({ type: "LOGIN_SUCCESS" });
-      setError(null);
-      setIsLoading(false);
-
-      history.push("/app/dashboard");
-    }, 2000);
-  } else {
-    dispatch({ type: "LOGIN_FAILURE" });
+  const payload = { 
+     user_name: login,
+     password
+  }
+  loginRequest(payload).then((res)=>{ 
+    const {data} = res 
+    localStorage.setItem("access_token", data["access_token"])
+    localStorage.setItem("refresh_token", data["refresh_token"])
+    setError(null);
+    setIsLoading(false);
+    dispatch({ type: "LOGIN_SUCCESS" });
+    history.push("/");
+  }).catch(()=>{
+    dispatch({ type: "SIGN_OUT_SUCCESS" });
     setError(true);
     setIsLoading(false);
-  }
+  })
 }
 
 function signOut(dispatch, history) {
-  localStorage.removeItem("id_token");
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("refresh_token");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
-  history.push("/login");
+  window.location.href = URL.login
 }

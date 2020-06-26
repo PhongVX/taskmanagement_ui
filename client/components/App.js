@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import {Provider} from 'react-redux'
-
+//components
 import Layout from './Layout'
+//pages
+import Login from "../pages/login";
 // context
-import { useUserState } from "../context/UserContext";
+// import { useUserState } from "../context/UserContext";
 
 import configureStore from '../store/configureStore'
 
 export default function App() {
     // global
-    var { isAuthenticated } = useUserState();
+    
     const store = configureStore()
 
     return (
@@ -24,8 +26,9 @@ export default function App() {
             path="/app"
             render={() => <Redirect to="/app/sprint" />}
           />
-          <PublicRoute path="/app" component={Layout} />
-          {/* <PublicRoute path="/login" component={Login} /> */}
+            <PublicRoute path="/login" component={Login} /> 
+            <PrivateRoute path="/app" component={Layout} />
+        
           {/* <Route component={Error} /> */}
         </Switch>
       </HashRouter>
@@ -34,8 +37,9 @@ export default function App() {
     );
   
     // #######################################################################
-  
     function PrivateRoute({ component, ...rest }) {
+      //TODO need to check 
+      let  isAuthenticated  = localStorage.getItem("access_token")
       return (
         <Route
           {...rest}
@@ -58,6 +62,8 @@ export default function App() {
     }
   
     function PublicRoute({ component, ...rest }) {
+         //TODO need to check 
+      let  isAuthenticated  = localStorage.getItem("access_token")
       return (
         <Route
           {...rest}

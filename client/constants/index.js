@@ -1,6 +1,10 @@
 export const API_URL = process.env.API_URL || ''
 //export const API_URL = 'http://localhost:8585'
 
+export const URL = { 
+    login:'/#/login'
+}
+
 export const WARNING_TYPE = { 
     success:'success',
     error:'error'
