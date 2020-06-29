@@ -1,18 +1,36 @@
 import axios from 'axios'
+
+import { accessTokenRequest } from '../apis/auth'
 import {URL} from '../constants'
 import {clearLocalStorage, getToken} from './utils'
+import {checkTokenExpired} from './jwt'
+
 class axiosService {
     constructor() {
         const instance = axios.create({ headers: { "Content-Type": "application/json;charset=utf-8" } })
         instance.interceptors.response.use(this.handleSuccess, this.handleError)
         instance.interceptors.request.use(async (config) => {
             if (!config.headers.Authorization) {
-                let token = getToken('access_token');
+                const token = getToken('access_token');
                 if (token) {
-                    // let isExpire = checkTokenExpired(token)
-                    // if (!isExpire) {
-                    config.headers.Authorization = `Bearer ${token}`;
-                    // }
+                    const isExpire = checkTokenExpired(token)
+                    if (!isExpire) {
+                        config.headers.Authorization = `Bearer ${token}`;
+                    }else{
+                        let refreshToken = getToken('refresh_token')
+                        await accessTokenRequest({ 'refresh_token': refreshToken })
+                            .then((res) => {
+                                const newAccessToken = res.data.access_token;
+                                const newRefreshToken = res.data.refresh_token;
+                                localStorage.setItem("access_token",newAccessToken)
+                                localStorage.setItem("refresh_token",newRefreshToken)
+                                config.headers.Authorization =  `Bearer ${newAccessToken}`
+                            })
+                            .catch((err) => {
+                                clearLocalStorage()               
+                                window.location.href = CONSTANTS.url.login
+                            })
+                    }
                   
                 }else{
                     clearLocalStorage()

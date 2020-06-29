@@ -7,19 +7,12 @@ import {
     Grid,
     Button,
     Paper,
-    TextField,
-    InputAdornment,
-    IconButton,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle
 } from '@material-ui/core'
-import {
-    Search as SearchIcon,
-    Visibility as VisibilityIcon
-} from "@material-ui/icons";
 import {
     Getter,
 } from '@devexpress/dx-react-core';
@@ -72,11 +65,11 @@ class Sprint extends PureComponent {
     }
 
     handleFindSprintByUserID = () => {
-        const { textSearchUserID } = this.state
         const { sprintActionCreators } = this.props
         const { fetchListSprintRequest } = sprintActionCreators
-        if (textSearchUserID.trim() != "") {
-            fetchListSprintRequest(textSearchUserID)
+        const userId = localStorage.getItem('user_id')
+        if (userId.trim() != "") {
+            fetchListSprintRequest(userId)
         }
     }
 
@@ -87,13 +80,13 @@ class Sprint extends PureComponent {
     }
 
     commitChanges = ({ added, changed, deleted }) => {
-        const { textSearchUserID } = this.state
+        const userId = localStorage.getItem('user_id')
         const { sprintActionCreators, uiCommonStateCreators } = this.props
         const { createSprintRequest, updateSprintRequest } = sprintActionCreators
         const {openSnackbar} = uiCommonStateCreators
         if (added) {
             added.forEach((data) => {
-                data = {...data, createdByID: textSearchUserID}
+                data = {...data, created_by_id: userId}
                 const createSprintPromise = () => {
                     return new Promise((resolve, reject) => {
                         createSprintRequest(data, resolve, reject)
@@ -110,8 +103,7 @@ class Sprint extends PureComponent {
         }
         if (changed) {
             Object.keys(changed).forEach(function (id) {
-                const payload = { created_by_id:  textSearchUserID, id, ...changed[id] }
-                console.log(payload)
+                const payload = { created_by_id:  userId, id, ...changed[id] }
                 const updateSprintPromise = () => {
                     return new Promise((resolve, reject) => {
                         updateSprintRequest(payload, resolve, reject)
@@ -135,14 +127,14 @@ class Sprint extends PureComponent {
     cancelDelete = () => this.setState({ deletingRows: [] })
 
     deleteRows = () => {
-        const { textSearchUserID } = this.state
+        const userId = localStorage.getItem('user_id')
         const { sprintActionCreators, uiCommonStateCreators } = this.props
         const { deleteSprintRequest } = sprintActionCreators
         const {openSnackbar} = uiCommonStateCreators
         this.state.deletingRows.forEach((rowId) => {
             let deleteSprintPromise = () => {
                 return new Promise((resolve, reject) => {
-                    const payload={created_by_id: textSearchUserID, id: rowId}
+                    const payload={created_by_id: userId, id: rowId}
                     deleteSprintRequest(payload, resolve, reject)
                 })
             }
@@ -228,7 +220,7 @@ class Sprint extends PureComponent {
                 <h2>{TEXT.title}</h2>
                 <Grid container spacing={3}>
                     <Grid container item direction="row" justify="flex-start" xs={6}>
-                        <TextField
+                        {/* <TextField
                             size="small"
                             variant="outlined"
                             placeholder={TEXT.searchUserID}
@@ -243,7 +235,7 @@ class Sprint extends PureComponent {
                                     </InputAdornment>
                                 )
                             }}
-                        />
+                        /> */}
                     </Grid>
                 </Grid>
                 <br/>           

@@ -1,5 +1,5 @@
 export function clearLocalStorage() {
-    ['access_token', 'refresh_token'].forEach(key => {
+    ['user_id','access_token', 'refresh_token'].forEach(key => {
         localStorage.removeItem(key)
     })
 }

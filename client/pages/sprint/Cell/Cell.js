@@ -25,7 +25,7 @@ class Cell extends PureComponent {
             case 'action': {
                 return (
                     <TableCell name={column.name}>
-                        <NavLink to={`/app/sprint-detail/${row.id}`}>
+                        <NavLink  to={`/app/sprint-detail/${row.id}`}>
                             <IconButton title="View">
                                 <VisibilityIcon color="primary" />
                             </IconButton>

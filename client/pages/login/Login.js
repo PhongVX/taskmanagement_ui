@@ -42,12 +42,27 @@ function Login(props) {
   var [activeTabId, setActiveTabId] = useState(0);
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("");
+  var [firstNameValue, setFirstNameValue] = useState("");
+  var [lastNameValue, setLastNameValue] = useState("");
   var [passwordValue, setPasswordValue] = useState("");
   var [gender, setGender] = React.useState('male');
 
   const handleChangeGender = (e)=>{ 
     setGender(event.target.value);
   }
+  const handleLoginEnter = (e)=>{
+    if(e.keyCode==13){
+      loginUser(
+        userDispatch,
+        loginValue,
+        passwordValue,
+        props.history,
+        setIsLoading,
+        setError,
+      )
+    }
+  }
+
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
@@ -84,12 +99,13 @@ function Login(props) {
                 <Typography className={classes.formDividerWord}>{ELEMENT_TEXT.or}</Typography>
                 <div className={classes.formDivider} />
               </div>
-              {/* <Fade in={error}>
+              <Fade in={error}>
                 <Typography color="secondary" className={classes.errorMessage}>
-                  Something is wrong with your login or password :(
+                  {error}
                 </Typography>
-              </Fade> */}
+              </Fade>
               <TextField
+                error={error}
                 id="email"
                 InputProps={{
                   classes: {
@@ -99,12 +115,14 @@ function Login(props) {
                 }}
                 value={loginValue}
                 onChange={e => setLoginValue(e.target.value)}
+                onKeyDown={handleLoginEnter}
                 margin="normal"
                 placeholder="Email Adress"
                 type="email"
                 fullWidth
               />
               <TextField
+                error={error}
                 id="password"
                 InputProps={{
                   classes: {
@@ -114,6 +132,7 @@ function Login(props) {
                 }}
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
+                onKeyDown={handleLoginEnter}
                 margin="normal"
                 placeholder="Password"
                 type="password"
@@ -177,8 +196,8 @@ function Login(props) {
                     input: classes.textField,
                   },
                 }}
-                value={nameValue}
-                // onChange={e => setNameValue(e.target.value)}
+                value={firstNameValue}
+                onChange={e => setFirstNameValue(e.target.value)}
                 margin="normal"
                 placeholder={ELEMENT_TEXT.firstName}
                 type="text"
@@ -186,15 +205,15 @@ function Login(props) {
               />
 
               <TextField
-                id="firstName"
+                id="lastName"
                 InputProps={{
                   classes: {
                     underline: classes.textFieldUnderline,
                     input: classes.textField,
                   },
                 }}
-                value={nameValue}
-                // onChange={e => setNameValue(e.target.value)}
+                value={lastNameValue}
+                onChange={e => setLastNameValue(e.target.value)}
                 margin="normal"
                 placeholder={ELEMENT_TEXT.lastName}
                 type="text"
