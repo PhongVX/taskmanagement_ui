@@ -2,6 +2,9 @@ import { makeStyles } from "@material-ui/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
 export default makeStyles(theme => ({
+  headerImageIcon:{
+    width:'35px'
+  },
   logotype: {
     color: "white",
     marginLeft: theme.spacing(2.5),
@@ -113,7 +116,8 @@ export default makeStyles(theme => ({
   profileMenuUser: {
     display: "flex",
     flexDirection: "column",
-    padding: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    textAlign: "center"
   },
   profileMenuItem: {
     color: theme.palette.text.hint,

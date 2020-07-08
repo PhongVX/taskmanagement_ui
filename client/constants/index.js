@@ -1,5 +1,5 @@
-export const API_URL = process.env.API_URL || ''
-//export const API_URL = 'http://localhost:8585'
+//export const API_URL = process.env.API_URL || ''
+export const API_URL = 'http://192.168.113.132:8585'
 
 export const URL = { 
     login:'/#/login'

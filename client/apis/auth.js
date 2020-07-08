@@ -16,3 +16,6 @@ export const accessTokenRequest = (payload) =>{
     return inst.post(`${API_URL}/${refreshUrl}`, payload)
 }
 
+export const loginGoogleRequest =()=>{ 
+    return axiosService.post("http://192.168.113.132:8585/api/v1/oauth/google/login")
+}

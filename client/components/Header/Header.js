@@ -104,6 +104,8 @@ export default function Header(props) {
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
 
+  const userInfo = JSON.parse(localStorage.getItem('user_info'))
+
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -201,7 +203,7 @@ export default function Header(props) {
           aria-controls="profile-menu"
           onClick={e => setProfileMenu(e.currentTarget)}
         >
-          <AccountIcon classes={{ root: classes.headerIcon }} />
+          {userInfo && userInfo.picture?  <img  className={classes.headerImageIcon} src={userInfo&&userInfo.picture} />: <AccountIcon classes={{ root: classes.headerIcon }}/>}
         </IconButton>
         <Menu
           id="mail-menu"
@@ -285,19 +287,19 @@ export default function Header(props) {
           classes={{ paper: classes.profileMenu }}
           disableAutoFocusItem
         >
-          {/* <div className={classes.profileMenuUser}>
-            <Typography variant="h4" weight="medium">
-              John Smith
+          <div className={classes.profileMenuUser}>
+            <Typography variant="h6" weight="medium">
+              {`${userInfo&&userInfo.first_name} ${userInfo&&userInfo.last_name}`}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
-              component="a"
+              // component="a"
               color="primary"
-              href="https://flatlogic.com"
+              // href="https://flatlogic.com"
             >
-              Flalogic.com
+              {userInfo&&userInfo.email}
             </Typography>
-          </div> */}
+          </div>
           {/* <MenuItem
             className={classNames(
               classes.profileMenuItem,
@@ -321,13 +323,14 @@ export default function Header(props) {
             )}
           >
             <AccountIcon className={classes.profileMenuIcon} /> Messages
-          </MenuItem> */}
+          </MenuItem> */} 
           <div className={classes.profileMenuUser}>
             <Typography
               className={classes.profileMenuLink}
               color="primary"
               onClick={() => signOut(userDispatch, props.history)}
             >
+              <hr/>
               Sign Out
             </Typography>
           </div>

@@ -29,7 +29,7 @@ import logo from "./logo.svg";
 // context
 import { useUserDispatch, loginUser } from "../../context/UserContext";
 import { ELEMENT_TEXT } from './LoginConst'
-
+import {loginGoogleRequest} from '../../apis/auth'
 function Login(props) {
   var classes = useStyles();
 
@@ -86,10 +86,10 @@ function Login(props) {
               <Typography variant="h3" className={classes.greeting}>
                 {ELEMENT_TEXT.loginTitle}
               </Typography>
-              <Button size="large" className={classes.googleButton}>
+              <a href="http://localhost:8888/api/v1/oauth/google/login"><Button  size="large" className={classes.googleButton}>
                 <img src={google} alt="google" className={classes.googleIcon} />
                 &nbsp;{ELEMENT_TEXT.loginWithGoogleText}
-              </Button>
+              </Button></a> 
               <Button size="large" className={classes.googleButton}>
                 <img src={github} alt="github" className={classes.googleIcon} />
                 &nbsp;{ELEMENT_TEXT.loginWithGithubText}

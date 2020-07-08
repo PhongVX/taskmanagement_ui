@@ -77,3 +77,15 @@ export const deleteUserRequest = (id, resolve, reject) =>{
         })
     } 
 }
+
+export const whoAmIRequest = (identity,resolve, reject)=>{
+    userApi
+    .whoAmI(identity)
+    .then(resp=>{
+        resolve(resp)
+    }).catch(error=>{
+        reject(error)
+    })
+    
+}
+

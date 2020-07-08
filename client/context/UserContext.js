@@ -1,7 +1,9 @@
 import React from "react";
+
 import {loginRequest} from '../apis/auth'
 import {URL} from '../constants'
 import {parseJwt} from '../commons/jwt'
+import {clearLocalStorage} from '../commons/utils'
 
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
@@ -75,7 +77,7 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
     setError(null);
     setIsLoading(false);
     dispatch({ type: "LOGIN_SUCCESS"});
-    history.push("/");
+    history.push("/sync-info");
   }).catch((error)=>{
     if (error.response && error.response.data) { 
       setError(error.response.data.message)
@@ -87,8 +89,7 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
 }
 
 function signOut(dispatch, history) {
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("refresh_token");
+  clearLocalStorage()
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   window.location.href = URL.login
 }

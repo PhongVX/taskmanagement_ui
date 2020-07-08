@@ -1,52 +1,57 @@
 import React, { Component } from 'react'
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 //components
 import Layout from './Layout'
 //pages
 import Login from "../pages/login";
+import SyncInfo from '../pages/syncInfo'
+import NewPassword from '../pages/newPassword'
 // context
 // import { useUserState } from "../context/UserContext";
 
 import configureStore from '../store/configureStore'
 
 export default function App() {
-    // global
-    
-    const store = configureStore()
+  // global
 
-    return (
-      < >
+  const store = configureStore()
+
+  return (
+    < >
       <Provider store={store}>
-      <HashRouter>
-        <Switch>
-          <Route exact path="/" render={() => <Redirect to="/app/sprint" />} />
-          <Route
-            exact
-            path="/app"
-            render={() => <Redirect to="/app/sprint" />}
-          />
-            <PublicRoute path="/login" component={Login} /> 
+        <HashRouter>
+          <Switch>
+            <Route exact path="/" render={() => <Redirect to="/app/sprint" />} />
+            <Route
+              exact
+              path="/app"
+              render={() => <Redirect to="/app/sprint" />}
+            />
+            <PublicRoute path="/login" component={Login} />
             <PrivateRoute path="/app" component={Layout} />
-        
-          {/* <Route component={Error} /> */}
-        </Switch>
-      </HashRouter>
+            <Route path="/new-password" render={(props) => React.createElement(NewPassword, props)} />
+            <Route path="/token-login/:accessToken/:refreshToken" render={(props) => React.createElement(SyncInfo, props)} />
+            <Route path="/sync-info" render={(props) => React.createElement(SyncInfo, props)} />
+
+            {/* <Route component={Error} /> */}
+          </Switch>
+        </HashRouter>
       </Provider>
-      </>
-    );
-  
-    // #######################################################################
-    function PrivateRoute({ component, ...rest }) {
-      //TODO need to check 
-      let  isAuthenticated  = localStorage.getItem("access_token")
-      return (
-        <Route
-          {...rest}
-          render={props =>
-            isAuthenticated ? (
-              React.createElement(component, props)
-            ) : (
+    </>
+  );
+
+  // #######################################################################
+  function PrivateRoute({ component, ...rest }) {
+    //TODO need to check 
+    let isAuthenticated = localStorage.getItem("access_token")
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          isAuthenticated ? (
+            React.createElement(component, props)
+          ) : (
               <Redirect
                 to={{
                   pathname: "/login",
@@ -56,30 +61,30 @@ export default function App() {
                 }}
               />
             )
-          }
-        />
-      );
-    }
-  
-    function PublicRoute({ component, ...rest }) {
-         //TODO need to check 
-      let  isAuthenticated  = localStorage.getItem("access_token")
-      return (
-        <Route
-          {...rest}
-          render={props =>
-            isAuthenticated ? (
-              <Redirect
-                to={{
-                  pathname: "/",
-                }}
-              />
-            ) : (
+        }
+      />
+    );
+  }
+
+  function PublicRoute({ component, ...rest }) {
+    //TODO need to check 
+    let isAuthenticated = localStorage.getItem("access_token")
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          isAuthenticated ? (
+            <Redirect
+              to={{
+                pathname: "/",
+              }}
+            />
+          ) : (
               React.createElement(component, props)
             )
-          }
-        />
-      );
-    }
+        }
+      />
+    );
   }
+}
 

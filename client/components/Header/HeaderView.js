@@ -399,6 +399,9 @@ const styles = theme => ({
     fontSize: 28,
     color: "rgba(255, 255, 255, 0.35)"
   },
+  headerImageIcon:{
+    width:'35px'
+  },
   headerIconCollapse: {
     color: "white"
   },
