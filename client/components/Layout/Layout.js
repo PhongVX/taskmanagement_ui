@@ -16,7 +16,7 @@ import Snackbars from '../Snackbars'
 // pages
 import Sprint from '../../pages/sprint'
 import User from '../../pages/user'
-import SprintDetail from '../../pages/SprintDetail/SprintDetail'
+import SprintDetail from '../../pages/sprintDetail/SprintDetail'
 
 import { useLayoutState } from "../../context/LayoutContext";
 
@@ -39,7 +39,8 @@ function Layout(props) {
             <Switch>
                 <Route path="/app/user" component={User} />
                 <Route path="/app/sprint" component={Sprint} />
-                <Route path="/app/sprint-detail/:sprintId" component={SprintDetail} />
+
+                <Route path="/app/sprint-detail/:sprintId" component={SprintDetail} /> 
             </Switch>
           </div>
           <Snackbars/>
